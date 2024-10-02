@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: EventManagement_SpringBoot
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: EventManager
+      username: root
+      password: root
+  logging:
+    level:
+      root: debug
+
+jwt:
+  signerKey: "tIpVTNnjWmJ+nIwbqvcFMdikQPxERxhtiGBnbhGtJSj2LG0126wKHw/Dro7bie6D"

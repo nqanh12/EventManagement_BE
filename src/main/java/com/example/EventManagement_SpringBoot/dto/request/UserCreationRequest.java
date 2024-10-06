@@ -1,8 +1,11 @@
 package com.example.EventManagement_SpringBoot.dto.request;
 
+import com.example.EventManagement_SpringBoot.entity.Role;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor

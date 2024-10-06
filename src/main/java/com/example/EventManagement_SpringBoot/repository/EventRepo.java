@@ -6,5 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface EventRepo extends MongoRepository<Event,String> {
+    Optional<Event> findByEventID(String eventID);
     Optional<Event> findTopByOrderByEventIDDesc();
 }

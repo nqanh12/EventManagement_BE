@@ -1,9 +1,7 @@
 package com.example.EventManagement_SpringBoot.entity;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,8 +14,11 @@ import java.util.List;
         "id", "name", "description", "locationId", "dateStart", "dateEnd",
         "participants", "managerId"
 })
-@Getter
-@Setter
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Event {
     @Id
@@ -31,8 +32,11 @@ public class Event {
      List<Participant> participants; // Danh sách người tham gia
      String managerId;
 
-    @Setter
-    @Getter
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class Participant {
          String userId; // ID của người dùng tham gia

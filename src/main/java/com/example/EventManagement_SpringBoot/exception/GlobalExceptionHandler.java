@@ -2,6 +2,7 @@ package com.example.EventManagement_SpringBoot.exception;
 
 import com.example.EventManagement_SpringBoot.dto.request.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,7 +17,9 @@ public class GlobalExceptionHandler {
         ApiResponse response = new ApiResponse();
         response.setCode(1001);
         response.setMessage(ex.getMessage());
-        return ResponseEntity.badRequest().body(response);
+        return ResponseEntity.
+                badRequest().
+                body(response);
     }
 
     @ExceptionHandler(value = AppException.class)
@@ -28,7 +31,21 @@ public class GlobalExceptionHandler {
         response.setCode(errorCode.getCode());
         response.setMessage(ex.getMessage());
 
-        return ResponseEntity.badRequest().body(response);
+        return ResponseEntity.
+                status(errorCode.getHttpStatusCode()).
+                body(response);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException ex) {
+        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+
+        return ResponseEntity
+                .status(errorCode.getHttpStatusCode())
+                .body(ApiResponse.builder()
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build());
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)

@@ -1,8 +1,9 @@
 package com.example.EventManagement_SpringBoot.service;
 
-import com.example.EventManagement_SpringBoot.dto.request.ApiResponse;
 import com.example.EventManagement_SpringBoot.dto.request.UserCreationRequest;
+import com.example.EventManagement_SpringBoot.dto.request.UserUpdateRequest;
 import com.example.EventManagement_SpringBoot.dto.response.UserResponse;
+
 import com.example.EventManagement_SpringBoot.entity.Users;
 import com.example.EventManagement_SpringBoot.enums.Role;
 import com.example.EventManagement_SpringBoot.exception.AppException;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,36 +34,64 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
+    //Đăng kí tài khoản
     public UserResponse register(UserCreationRequest request) {
+        if (userRepo.findByUserName(request.getUserName()).isPresent()) {
+            log.error("User already exists with username: {}", request.getUserName());
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
         var user = userMapper.toUsers(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRoles(new HashSet<>(List.of(Role.USER.name())));
         try {
             user = userRepo.save(user);
         } catch (DataIntegrityViolationException e) {
-            log.error("User already exists", e);
+            log.error("Data integrity violation", e);
             throw new AppException(ErrorCode.USER_EXISTED);
         }
-        return userMapper.toUserResponseApiResponse(user).getResult();
+        return userMapper.toUserResponse(user);
     }
 
+
+    //Admin lấy danh sách người dùng
     public List<UserResponse> getAllUsers() {
         return userRepo.findAll().stream()
-                .map(userMapper::toUserResponseApiResponse)
-                .map(ApiResponse::getResult)
+                .map(userMapper::toUserResponse)
                 .collect(Collectors.toList());
     }
 
-    public UserResponse getUser(String userId) {
-        var user = userRepo.findById(userId)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        return userMapper.toUserResponseApiResponse(user).getResult();
-    }
 
+    //User lấy thông tin cá nhân
     public UserResponse getMyInfo() {
-        var user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userMapper.toUserResponseApiResponse(user).getResult();
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+
+        Users user = userRepo.findByUserName(name)
+                 .orElseThrow(
+                         ()-> new AppException(ErrorCode.USER_NOT_EXISTED));
+        return userMapper.toUserResponse(user);
     }
 
 
+    //User cập nhật thông tin người dùng
+    public UserResponse updateUser(String userName,UserUpdateRequest request){
+        var user = userRepo.findByUserName(userName)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        userMapper.updateUser(user, request);
+        if (request.getRoles() != null && !request.getRoles().isEmpty()) {
+            user.setRoles(request.getRoles());
+        }
+        user = userRepo.save(user);
+        return userMapper.toUserResponse(user);
+    }
+
+
+    //Admin xóa người dùng
+    public UserResponse deleteUser(String userName){
+        var user = userRepo.findByUserName(userName)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        userRepo.delete(user);
+        return userMapper.toUserResponse(user);
+    }
 }

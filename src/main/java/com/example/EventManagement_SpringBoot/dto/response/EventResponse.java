@@ -1,18 +1,27 @@
-package com.example.EventManagement_SpringBoot.dto.request;
+package com.example.EventManagement_SpringBoot.dto.response;
 
 import com.example.EventManagement_SpringBoot.entity.Event;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 import java.util.List;
 
+@JsonPropertyOrder({
+        "id", "name", "description", "locationId", "dateStart", "dateEnd",
+        "participants", "managerId"
+})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EventUpdateRequest {
+public class EventResponse {
+    @Id
+    String id; // Event ID
+    String eventID;
     String name; // Tên sự kiện
     String description; // Mô tả sự kiện
     String locationId; // ID của địa điểm
@@ -33,3 +42,4 @@ public class EventUpdateRequest {
         boolean checkOutStatus; // Trạng thái check-out
     }
 }
+

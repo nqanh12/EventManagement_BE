@@ -1,35 +1,55 @@
 package com.example.EventManagement_SpringBoot.service;
 
 import com.example.EventManagement_SpringBoot.dto.request.EventCreationRequest;
+import com.example.EventManagement_SpringBoot.dto.response.EventResponse;
 import com.example.EventManagement_SpringBoot.entity.Event;
+import com.example.EventManagement_SpringBoot.exception.AppException;
+import com.example.EventManagement_SpringBoot.exception.ErrorCode;
 import com.example.EventManagement_SpringBoot.repository.EventRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Service
 public class EventService {
-    @Autowired
-    private EventRepo eventRepo;
+    EventRepo eventRepo;
 
-    public Event createEvent(EventCreationRequest request) {
-        try{
-            String nextEventID = generateNextEventID();
-            Event event = new Event();
-            event.setEventID(nextEventID);
-            event.setName(request.getName());
-            event.setDescription(request.getDescription());
-            event.setLocationId(request.getLocationId());
-            event.setDateStart(request.getDateStart());
-            event.setDateEnd(request.getDateEnd());
-            event.setManagerId(request.getManagerId());
-            return eventRepo.save(event);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    //admin tạo sự kiện
+    public EventResponse createEvent(EventCreationRequest request) {
+        if (eventRepo.findByEventID(request.getEventID()).isPresent()) {
+            log.error("Event already exists with eventID: {}", request.getEventID());
+            throw new AppException(ErrorCode.EVENT_EXISTED);
         }
-
+        var event = Event.builder()
+                .eventID(generateNextEventID())
+                .name(request.getName())
+                .description(request.getDescription())
+                .locationId(request.getLocationId())
+                .dateStart(request.getDateStart())
+                .dateEnd(request.getDateEnd())
+                .managerId(request.getManagerId())
+                .build();
+        event = eventRepo.save(event);
+        return EventResponse.builder()
+                .eventID(event.getEventID())
+                .name(event.getName())
+                .description(event.getDescription())
+                .locationId(event.getLocationId())
+                .dateStart(event.getDateStart())
+                .dateEnd(event.getDateEnd())
+                .managerId(event.getManagerId())
+                .build();
     }
+
+    //Tạo ID cho sự kiện
     private String generateNextEventID() {
         Optional<Event> lastEvent = eventRepo.findTopByOrderByEventIDDesc();
         if (lastEvent.isPresent()) {
@@ -41,4 +61,5 @@ public class EventService {
             return "SK001";
         }
     }
+
 }

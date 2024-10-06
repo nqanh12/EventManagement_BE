@@ -41,6 +41,7 @@ public class AuthenticationService {
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
 
+    //Kiểm tra token
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
         var token = request.getToken();
 
@@ -57,6 +58,8 @@ public class AuthenticationService {
                 .build();
     }
 
+
+    //Xác thực tài khoản
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var user = userRepo.findByUserName(request.getUserName())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
@@ -74,6 +77,8 @@ public class AuthenticationService {
                 .build();
     }
 
+
+    //Tạo token
     private String generateToken(Users user) {
         //Header
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
@@ -103,6 +108,7 @@ public class AuthenticationService {
         }
     }
 
+    //Tạo scope
     private String buildScope(Users user) {
         StringJoiner stringJoiner = new StringJoiner(" ");
         if(!CollectionUtils.isEmpty(user.getRoles()))

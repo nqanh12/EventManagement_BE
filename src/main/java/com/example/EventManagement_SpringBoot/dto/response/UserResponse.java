@@ -1,5 +1,6 @@
 package com.example.EventManagement_SpringBoot.dto.response;
 
+import com.example.EventManagement_SpringBoot.entity.Role;
 import com.example.EventManagement_SpringBoot.entity.Users;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;

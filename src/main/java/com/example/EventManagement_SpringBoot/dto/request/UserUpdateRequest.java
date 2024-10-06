@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +14,7 @@ import java.util.List;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
-
+     String userName;
      String password;
      String full_Name;
      String class_id;
@@ -21,7 +22,7 @@ public class UserUpdateRequest {
      String email;
      String phone;
      String address;
-     String role;
+    Set<String> roles;
      List<Users.EventRegistration> eventsRegistered;
 
     @Data

@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,6 +20,6 @@ public class UserCreationRequest {
     @Size(min = 8 ,max = 20, message = "Mật khẩu phải dài hơn 8 kí tự")
      String password;
 
-     String role;
+     Set<String> roles;
 
 }

@@ -1,6 +1,5 @@
 package com.example.EventManagement_SpringBoot.dto.response;
 
-import com.example.EventManagement_SpringBoot.entity.Event;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EventResponse {
+public class EventListResponse {
     @Id
     String id; // Event ID
     String eventID;
@@ -27,21 +26,5 @@ public class EventResponse {
     String locationId; // ID của địa điểm
     Date dateStart; // Ngày bắt đầu
     Date dateEnd; // Ngày kết thúc
-    List<Participant> participants; // Danh sách người tham gia
     String managerName;
-
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class Participant {
-        String userName; // ID của người dùng tham gia
-        boolean checkInStatus; // Trạng thái check-in
-        Date checkInTime;
-        boolean checkOutStatus;
-        Date checkOutTime;
-    }
 }
-

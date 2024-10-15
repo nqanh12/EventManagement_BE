@@ -1,6 +1,6 @@
 package com.example.EventManagement_SpringBoot.configuration;
 
-import com.example.EventManagement_SpringBoot.dto.request.ApiResponse;
+import com.example.EventManagement_SpringBoot.dto.response.ApiResponse;
 import com.example.EventManagement_SpringBoot.exception.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;

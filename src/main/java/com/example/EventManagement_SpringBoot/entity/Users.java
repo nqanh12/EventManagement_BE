@@ -12,21 +12,21 @@ import java.util.Set;
 
 @Document(collection = "Users")
 @JsonPropertyOrder({
-        "id", "userName", "password", "full_Name", "class_id", "training_point",
+        "id", "userName", "password", "full_Name", "gender", "class_id", "training_point",
         "email", "phone", "address", "role", "eventsRegistered"
 })
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Users {
-    @Id
+     @Id
      String id;
      String userName;
      String password;
      String full_Name;
+     String gender;
      String class_id;
      String training_point;
      String email;
@@ -35,15 +35,20 @@ public class Users {
      Set<String> roles;
      List<EventRegistration> eventsRegistered;
 
-    @Setter
-    @Getter
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class EventRegistration {
          String eventId;
+         String name; // Tên sự kiện
          Date registrationDate;
          String qrCode;
          boolean checkInStatus;
+         Date checkInTime;
          boolean checkOutStatus;
+         Date checkOutTime;
     }
 
 }

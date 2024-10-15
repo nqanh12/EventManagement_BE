@@ -12,7 +12,7 @@ import java.util.List;
 @Document(collection = "Events")
 @JsonPropertyOrder({
         "id", "name", "description", "locationId", "dateStart", "dateEnd",
-        "participants", "managerId"
+        "participants", "managerName"
 })
 
 @Data
@@ -29,18 +29,20 @@ public class Event {
      String locationId; // ID của địa điểm
      Date dateStart; // Ngày bắt đầu
      Date dateEnd; // Ngày kết thúc
-     List<Participant> participants; // Danh sách người tham gia
-     String managerId;
-
+     String managerName;
+     List<Event.Participants> participants; // Danh sách người tham gia
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class Participant {
-         String userId; // ID của người dùng tham gia
+    public static class Participants {
+         String userName; // ID của người dùng tham gia
          boolean checkInStatus; // Trạng thái check-in
+         Date checkInTime;
          boolean checkOutStatus; // Trạng thái check-out
+         Date checkOutTime; // Thời gian check-out
     }
+
 }

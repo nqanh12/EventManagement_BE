@@ -71,9 +71,11 @@ public class AuthenticationService {
         }
 
         var token = generateToken(user);
+        var roles = user.getRoles();
         return AuthenticationResponse.builder()
                 .token(token)
                 .authenticated(true)
+                .role(roles.toString())
                 .build();
     }
 

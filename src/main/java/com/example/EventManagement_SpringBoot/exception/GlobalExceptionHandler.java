@@ -1,13 +1,11 @@
 package com.example.EventManagement_SpringBoot.exception;
 
-import com.example.EventManagement_SpringBoot.dto.request.ApiResponse;
+import com.example.EventManagement_SpringBoot.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.util.Objects;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -56,7 +54,7 @@ public class GlobalExceptionHandler {
         try{
             errorCode = ErrorCode.valueOf(enumKey);
         } catch (IllegalArgumentException e) {
-
+            throw new AppException(ErrorCode.INVALID_KEY);
         }
 
         ApiResponse response = new ApiResponse();

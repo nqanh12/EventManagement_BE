@@ -24,14 +24,14 @@ public class ApplicationInitConfig {
     @Bean
     ApplicationRunner applicationRunner(UserRepo userRepo) {
         return args -> {
-            if (userRepo.findByUserName("admin").isEmpty())
+            if (userRepo.findByUserName("hufi2024").isEmpty())
             {
                 var roles = new HashSet<String>();
                 roles.add(Role.ADMIN.name());
                 Users user = Users.builder()
-                        .userName("admin")
-                        .password(passwordEncoder.encode("admin"))
-                        //.roles(roles)
+                        .userName("hufi2024")
+                        .password(passwordEncoder.encode("123456789"))
+                        .roles(roles)
                         .build();
 
                 userRepo.save(user);

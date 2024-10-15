@@ -1,4 +1,4 @@
-package com.example.EventManagement_SpringBoot.dto.request;
+package com.example.EventManagement_SpringBoot.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

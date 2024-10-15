@@ -1,6 +1,6 @@
 package com.example.EventManagement_SpringBoot.controller;
 
-import com.example.EventManagement_SpringBoot.dto.request.ApiResponse;
+import com.example.EventManagement_SpringBoot.dto.response.ApiResponse;
 import com.example.EventManagement_SpringBoot.dto.request.AuthenticationRequest;
 import com.example.EventManagement_SpringBoot.dto.request.IntrospectRequest;
 import com.example.EventManagement_SpringBoot.dto.response.AuthenticationResponse;

@@ -32,6 +32,6 @@ public class EventCreationRequest {
      Date dateEnd;
 
     @NotBlank(message = "Không được bỏ trống manager")
-     String managerId;
+     String managerName;
 
 }

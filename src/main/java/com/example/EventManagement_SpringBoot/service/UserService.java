@@ -45,6 +45,7 @@ public class UserService {
         }
         var user = userMapper.toUsers(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setEventsRegistered(new ArrayList<>());
         user.setRoles(new HashSet<>(List.of(Role.USER.name())));
         try {
             user = userRepo.save(user);
@@ -114,7 +115,7 @@ public class UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         //Kiểm tra sự kiện có tồn tại hay không
-        var event = eventRepo.findByEventID(eventID)
+        eventRepo.findByEventId(eventID)
                 .orElseThrow(() -> new AppException(ErrorCode.EVENT_NOT_FOUND));
         //Kiểm tra sự kiện có tồn tại không
         if (user.getEventsRegistered() == null) {
@@ -157,9 +158,12 @@ public class UserService {
                 .filter(registration -> registration.getEventId().equals(eventID))
                 .findFirst()
                 .orElseThrow(() -> new AppException(ErrorCode.EVENT_NOT_FOUND));
+        return getUserQRResponse(eventRegistration);
+    }
+
+    private static UserQRResponse getUserQRResponse(Users.EventRegistration eventRegistration) {
         UserQRResponse.EventRegistration responseEvent = new UserQRResponse.EventRegistration(
                 eventRegistration.getEventId(),
-                eventRegistration.getName(),
                 eventRegistration.getRegistrationDate(),
                 eventRegistration.getQrCode(),
                 eventRegistration.isCheckInStatus(),
@@ -167,8 +171,7 @@ public class UserService {
                 eventRegistration.isCheckOutStatus(),
                 eventRegistration.getCheckOutTime()
         );
-        UserQRResponse userQRResponse = new UserQRResponse(List.of(responseEvent));
-        return userQRResponse;
+        return new UserQRResponse(List.of(responseEvent));
     }
 
 
@@ -190,5 +193,48 @@ public class UserService {
                 .class_id(user.getClass_id())
                 .full_Name(user.getFull_Name())
                 .build();
+    }
+
+    //Xóa sự kiện đã đăng kí của sinh viên
+    public UserQRResponse deleteRegisteredEvent(String eventID) {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        var user = userRepo.findByUserName(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        var eventRegistration = user.getEventsRegistered().stream()
+                .filter(registration -> registration.getEventId().equals(eventID))
+                .findFirst()
+                .orElseThrow(() -> new AppException(ErrorCode.EVENT_NOT_FOUND));
+        user.getEventsRegistered().remove(eventRegistration);
+        user = userRepo.save(user);
+        return userMapper.toUserQRResponse(user);
+    }
+
+    //Sinh viên check-in sự kiện và thay đổi trạng thái
+    public UserQRResponse checkInEvent(String eventID,String userName) {
+        var user = userRepo.findByUserName(userName)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        var eventRegistration = user.getEventsRegistered().stream()
+                .filter(registration -> registration.getEventId().equals(eventID))
+                .findFirst()
+                .orElseThrow(() -> new AppException(ErrorCode.EVENT_NOT_FOUND));
+        eventRegistration.setCheckInStatus(true);
+        eventRegistration.setCheckInTime(new Date());
+        user = userRepo.save(user);
+        return userMapper.toUserQRResponse(user);
+    }
+
+    //Sinh Viên check-out sự kiện và thay đổi trạng thái
+    public UserQRResponse checkOutEvent(String eventID,String userName) {
+        var user = userRepo.findByUserName(userName)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        var eventRegistration = user.getEventsRegistered().stream()
+                .filter(registration -> registration.getEventId().equals(eventID))
+                .findFirst()
+                .orElseThrow(() -> new AppException(ErrorCode.EVENT_NOT_FOUND));
+        eventRegistration.setCheckOutStatus(true);
+        eventRegistration.setCheckOutTime(new Date());
+        user = userRepo.save(user);
+        return userMapper.toUserQRResponse(user);
     }
 }

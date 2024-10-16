@@ -6,12 +6,13 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Document(collection = "Events")
 @JsonPropertyOrder({
-        "id", "name", "description", "locationId", "dateStart", "dateEnd",
+        "id","eventId", "name", "capacity", "description", "locationId", "dateStart", "dateEnd",
         "participants", "managerName"
 })
 
@@ -23,14 +24,15 @@ import java.util.List;
 public class Event {
     @Id
      String id; // Event ID
-     String eventID;
+     String eventId;
      String name; // Tên sự kiện
+     String capacity; // Sức chứa
      String description; // Mô tả sự kiện
      String locationId; // ID của địa điểm
      Date dateStart; // Ngày bắt đầu
      Date dateEnd; // Ngày kết thúc
      String managerName;
-     List<Event.Participants> participants; // Danh sách người tham gia
+     List<Event.Participants> participants= new ArrayList<>();
 
     @Data
     @NoArgsConstructor

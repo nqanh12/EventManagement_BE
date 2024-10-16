@@ -14,10 +14,13 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EventCreationRequest {
      String id; // Event ID
-     String eventID;
+     String eventId;
 
     @NotBlank(message = "Không được bỏ trống tên")
      String name; // Tên sự kiện
+
+    @NotBlank(message = "Không được bỏ trống sức chứa")
+     String capacity;
 
     @NotBlank(message = "Không được bỏ trống mô tả sự kiện")
      String description; // Mô tả sự kiện

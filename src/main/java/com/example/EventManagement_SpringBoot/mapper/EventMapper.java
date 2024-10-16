@@ -19,7 +19,7 @@ public interface EventMapper {
     List<EventListResponse> toListEventResponse(List<Event> events);
 
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "eventID", source = "eventID")
+    @Mapping(target = "eventId", source = "eventId")
     @Mapping(target = "name", source = "name")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "locationId", source = "locationId")
@@ -30,7 +30,7 @@ public interface EventMapper {
     EventResponse toEventResponse(Event event);
 
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "eventID", source = "eventID")
+    @Mapping(target = "eventId", source = "eventId")
     @Mapping(target = "dateEnd", source = "dateEnd")
     @Mapping(target = "dateStart", source = "dateStart")
     @Mapping(target = "description", source = "description")
@@ -44,7 +44,7 @@ public interface EventMapper {
     ParticipantsResponse toParticipantsResponse(Event event);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "eventID", ignore = true)
+    @Mapping(target = "eventId", ignore = true)
     @Mapping(target = "dateEnd", source = "dateEnd")
     @Mapping(target = "dateStart", source = "dateStart")
     @Mapping(target = "description", source = "description")

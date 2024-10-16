@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Document(collection = "Users")
 @JsonPropertyOrder({
-        "id", "userName", "password", "full_Name", "gender", "class_id", "training_point",
+        "id","eventId", "userName", "password", "full_Name", "gender", "class_id", "training_point",
         "email", "phone", "address", "role", "eventsRegistered"
 })
 @Data
@@ -33,7 +33,7 @@ public class Users {
      String phone;
      String address;
      Set<String> roles;
-     List<EventRegistration> eventsRegistered;
+     List<Users.EventRegistration> eventsRegistered;
 
     @Data
     @Builder

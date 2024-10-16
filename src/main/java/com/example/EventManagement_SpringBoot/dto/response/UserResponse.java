@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -31,18 +30,4 @@ public class UserResponse {
     String address;
     Set<String> roles;
     List<Users.EventRegistration> eventsRegistered;
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class EventRegistration {
-        String eventId;
-        String name;
-        Date registrationDate;
-        String qrCode;
-        boolean checkInStatus;
-        Date checkInTime;
-        boolean checkOutStatus;
-        Date checkOutTime;
-    }
 }

@@ -6,10 +6,9 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 
 import java.util.Date;
-import java.util.List;
 
 @JsonPropertyOrder({
-        "id", "name", "description", "locationId", "dateStart", "dateEnd",
+        "id", "eventId","name", "capacity","description", "locationId", "dateStart", "dateEnd",
         "participants", "ManagerName"
 })
 @Data
@@ -20,8 +19,9 @@ import java.util.List;
 public class EventListResponse {
     @Id
     String id; // Event ID
-    String eventID;
+    String eventId;
     String name; // Tên sự kiện
+    String capacity;
     String description; // Mô tả sự kiện
     String locationId; // ID của địa điểm
     Date dateStart; // Ngày bắt đầu

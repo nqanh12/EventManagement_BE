@@ -32,37 +32,37 @@ public class EventController {
     }
 
     //Xem chi tiết sự kiện
-    @GetMapping("getInfo/{eventID}")
-    ApiResponse<EventResponse> getEventInfoById(@PathVariable String eventID) {
+    @GetMapping("getInfo/{eventId}")
+    ApiResponse<EventResponse> getEventInfoById(@PathVariable String eventId) {
         return ApiResponse.<EventResponse>builder()
-                .result(eventService.getEventInfoById(eventID))
+                .result(eventService.getEventInfoById(eventId))
                 .build();
     }
 
     //Admin cập nhật thông tin sự kiện
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/update/{eventID}")
-    ApiResponse<EventResponse> updateEvent(@PathVariable String eventID, @Valid @RequestBody EventUpdateRequest request) {
+    @PutMapping("/update/{eventId}")
+    ApiResponse<EventResponse> updateEvent(@PathVariable String eventId, @Valid @RequestBody EventUpdateRequest request) {
         return ApiResponse.<EventResponse>builder()
-                .result(eventService.updateEvent(eventID, request))
+                .result(eventService.updateEvent(eventId, request))
                 .build();
     }
 
     //Lấy danh sách người tham gia sự kiện
-    @GetMapping("/participants/{eventID}")
-    public ApiResponse<ParticipantsResponse> getAll_UserAttendEvent(@PathVariable String eventID) {
+    @GetMapping("/participants/{eventId}")
+    public ApiResponse<ParticipantsResponse> getAll_UserAttendEvent(@PathVariable String eventId) {
         return ApiResponse.<ParticipantsResponse>builder()
-                .result(eventService.getAll_UserAttendEvent(eventID))
+                .result(eventService.getAll_UserAttendEvent(eventId))
                 .build();
     }
 
 
     //Admin xóa sự kiện
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/delete/{eventID}")
-    public ApiResponse<EventResponse> deleteEvent(@PathVariable String eventID) {
+    @DeleteMapping("/delete/{eventId}")
+    public ApiResponse<EventResponse> deleteEvent(@PathVariable String eventId) {
         return ApiResponse.<EventResponse>builder()
-                .result(eventService.deleteEvent(eventID))
+                .result(eventService.deleteEvent(eventId))
                 .build();
     }
 
@@ -75,18 +75,42 @@ public class EventController {
     }
 
     //Lấy tên sự kiện từ id sự kiện
-    @GetMapping("/getEventName/{eventID}")
-    ApiResponse<EventNameResponse> getEventName(@PathVariable String eventID) {
+    @GetMapping("/getEventName/{eventId}")
+    ApiResponse<EventNameResponse> getEventName(@PathVariable String eventId) {
         return ApiResponse.<EventNameResponse>builder()
-                .result(eventService.getEventName(eventID))
+                .result(eventService.getEventName(eventId))
                 .build();
     }
 
     //Thêm sinh viên vào sự kiện
-    @PostMapping("/addParticipant/{eventID}")
-    public ApiResponse<EventParticipantResponse> addParticipant(@PathVariable String eventID) {
+    @PostMapping("/addParticipant/{eventId}")
+    public ApiResponse<EventParticipantResponse> addParticipant(@PathVariable String eventId) {
         return ApiResponse.<EventParticipantResponse>builder()
-                .result(eventService.addParticipant(eventID))
+                .result(eventService.addParticipant(eventId))
+                .build();
+    }
+
+    //Xóa sinh viên khỏi sự kiện
+    @DeleteMapping("/deleteParticipant/{eventId}")
+    public ApiResponse<EventParticipantResponse> deleteParticipant(@PathVariable String eventId) {
+        return ApiResponse.<EventParticipantResponse>builder()
+                .result(eventService.deleteParticipant(eventId))
+                .build();
+    }
+
+    //Thay đổi trang thái check-in của sinh viên trong document Event
+    @PutMapping("/checkIn/{eventId}/{userName}")
+    public ApiResponse<EventParticipantResponse> checkIn(@PathVariable String eventId,@PathVariable String userName) {
+        return ApiResponse.<EventParticipantResponse>builder()
+                .result(eventService.checkInEvent(eventId,userName))
+                .build();
+    }
+
+    //Thay đổi trang thái check-out của sinh viên trong document Event
+    @PutMapping("/checkOut/{eventId}/{userName}")
+    public ApiResponse<EventParticipantResponse> checkOut(@PathVariable String eventId,@PathVariable String userName) {
+        return ApiResponse.<EventParticipantResponse>builder()
+                .result(eventService.checkOutEvent(eventId,userName))
                 .build();
     }
 }

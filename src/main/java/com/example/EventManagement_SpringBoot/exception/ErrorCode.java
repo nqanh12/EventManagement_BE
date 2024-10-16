@@ -23,7 +23,9 @@ public enum ErrorCode {
     EVENT_NOT_FOUND(1009, "Event not found", HttpStatus.NOT_FOUND),
     INVALID_PASSWORD(1010, "Invalid password", HttpStatus.BAD_REQUEST),
     NEW_PASSWORD_SAME_AS_OLD(1011, "New password is the same as the old password", HttpStatus.BAD_REQUEST),
-    ALREADY_REGISTERED(1012, "Already registered event", HttpStatus.BAD_REQUEST),;
+    ALREADY_REGISTERED(1012, "Already registered event", HttpStatus.BAD_REQUEST),
+    NOT_REGISTERED(1013, "Not registered event", HttpStatus.BAD_REQUEST),
+    ALREADY_CHECKED_IN(1014, "Already checked in", HttpStatus.BAD_REQUEST),;
 
     ErrorCode(int code, String message, HttpStatusCode httpStatusCode) {
         this.code = code;

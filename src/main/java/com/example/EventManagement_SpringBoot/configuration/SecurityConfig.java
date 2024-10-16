@@ -27,7 +27,7 @@ public class SecurityConfig {
     private String signerKey;
 
     private final String[] PUBLIC_ENDPOINT = {
-            "/register",
+            "/api/users/register",
             "/auth/login",
             "/auth/introspect"
     };

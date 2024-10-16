@@ -90,7 +90,7 @@ public class UserController {
     }
 
     //Sinh viên xem danh sách sự kiên đã đăng kí
-    @GetMapping("/getRegisteredEvents")
+        @GetMapping("/getRegisteredEvents")
     ApiResponse<UserQRResponse> getRegisteredEvents() {
         return ApiResponse.<UserQRResponse>builder()
                 .result(userService.getRegisteredEvents())
@@ -105,4 +105,27 @@ public class UserController {
                 .build();
     }
 
+    //Xóa sự kiện đã đăng kí của sinh viên
+    @DeleteMapping("/deleteRegisteredEvent/{eventID}")
+    ApiResponse<UserQRResponse> deleteRegisteredEvent(@PathVariable String eventID) {
+        return ApiResponse.<UserQRResponse>builder()
+                .result(userService.deleteRegisteredEvent(eventID))
+                .build();
+    }
+
+    //Sinh viên check-in sự kiện và thay đổi trạng thái
+    @PutMapping("/checkIn/{eventID}/{userName}")
+    ApiResponse<UserQRResponse> checkIn(@PathVariable String eventID,@PathVariable String userName) {
+        return ApiResponse.<UserQRResponse>builder()
+                .result(userService.checkInEvent(eventID,userName))
+                .build();
+    }
+
+    //Sinh viên check-out sự kiện và thay đổi trạng thái
+    @PutMapping("/checkOut/{eventID}/{userName}")
+    ApiResponse<UserQRResponse> checkOut(@PathVariable String eventID,@PathVariable String userName) {
+        return ApiResponse.<UserQRResponse>builder()
+                .result(userService.checkOutEvent(eventID,userName))
+                .build();
+    }
 }

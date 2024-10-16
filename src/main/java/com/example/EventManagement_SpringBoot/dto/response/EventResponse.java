@@ -1,6 +1,5 @@
 package com.example.EventManagement_SpringBoot.dto.response;
 
-import com.example.EventManagement_SpringBoot.entity.Event;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @JsonPropertyOrder({
-        "id", "name", "description", "locationId", "dateStart", "dateEnd",
+        "id","eventId", "name","capacity","description", "locationId", "dateStart", "dateEnd",
         "participants", "ManagerName"
 })
 @Data
@@ -21,8 +20,9 @@ import java.util.List;
 public class EventResponse {
     @Id
     String id; // Event ID
-    String eventID;
+    String eventId;
     String name; // Tên sự kiện
+    String capacity;
     String description; // Mô tả sự kiện
     String locationId; // ID của địa điểm
     Date dateStart; // Ngày bắt đầu

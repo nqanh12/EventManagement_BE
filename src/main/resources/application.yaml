@@ -11,6 +11,7 @@ spring:
   logging:
     level:
       root: debug
-
+server:
+    port: 8080
 jwt:
   signerKey: "tIpVTNnjWmJ+nIwbqvcFMdikQPxERxhtiGBnbhGtJSj2LG0126wKHw/Dro7bie6D"

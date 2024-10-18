@@ -1,5 +1,6 @@
 package com.example.EventManagement_SpringBoot.dto.request;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -19,8 +20,9 @@ public class EventCreationRequest {
     @NotBlank(message = "Không được bỏ trống tên")
      String name; // Tên sự kiện
 
-    @NotBlank(message = "Không được bỏ trống sức chứa")
-     String capacity;
+    @NotNull(message = "Không được bỏ trống sức chứa")
+    @Min(value = 1, message = "Sức chứa phải lớn hơn 0")
+     int capacity;
 
     @NotBlank(message = "Không được bỏ trống mô tả sự kiện")
      String description; // Mô tả sự kiện

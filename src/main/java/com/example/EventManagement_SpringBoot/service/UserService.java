@@ -237,4 +237,18 @@ public class UserService {
         user = userRepo.save(user);
         return userMapper.toUserQRResponse(user);
     }
+
+    //Sinh viên đổi mật khẩu
+    public UserResponse changePassword(UserChangePasswordRequest request) {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        var user = userRepo.findByUserName(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new AppException(ErrorCode.WRONG_PASSWORD);
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user = userRepo.save(user);
+        return userMapper.toUserResponse(user);
+    }
 }

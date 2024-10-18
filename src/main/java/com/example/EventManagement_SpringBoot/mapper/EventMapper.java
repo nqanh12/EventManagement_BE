@@ -21,6 +21,7 @@ public interface EventMapper {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "eventId", source = "eventId")
     @Mapping(target = "name", source = "name")
+    @Mapping(target = "capacity", source = "capacity")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "locationId", source = "locationId")
     @Mapping(target = "dateStart", source = "dateStart")
@@ -37,6 +38,7 @@ public interface EventMapper {
     @Mapping(target = "locationId", source = "locationId")
     @Mapping(target = "managerName", source = "managerName")
     @Mapping(target = "name", source = "name")
+    @Mapping(target ="capacity" ,source = "capacity")
     @Mapping(target = "participants", ignore = true)
     Event toEvent(EventCreationRequest request);
 
@@ -51,6 +53,7 @@ public interface EventMapper {
     @Mapping(target = "locationId", source = "locationId")
     @Mapping(target = "managerName", source = "managerName")
     @Mapping(target = "name", source = "name")
+    @Mapping(target ="capacity" ,source = "capacity")
     @Mapping(target = "participants", ignore = true)
     void updateEvent(@MappingTarget Event event, EventUpdateRequest request);
 

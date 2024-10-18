@@ -128,4 +128,12 @@ public class UserController {
                 .result(userService.checkOutEvent(eventID,userName))
                 .build();
     }
+
+    //Sinh viên đổi mật khẩu
+    @PutMapping("/changePassword")
+    ApiResponse<UserResponse> changePassword(@RequestBody @Valid UserChangePasswordRequest request) {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.changePassword(request))
+                .build();
+    }
 }

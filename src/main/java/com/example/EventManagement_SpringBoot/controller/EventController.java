@@ -113,4 +113,12 @@ public class EventController {
                 .result(eventService.checkOutEvent(eventId,userName))
                 .build();
     }
+
+    //lấy ra sức chưa của sự kiện
+    @GetMapping("/getCapacity/{eventId}")
+    public ApiResponse<EventCapacityResponse> getCapacity(@PathVariable String eventId) {
+        return ApiResponse.<EventCapacityResponse>builder()
+                .result(eventService.getEventCapacity(eventId))
+                .build();
+    }
 }

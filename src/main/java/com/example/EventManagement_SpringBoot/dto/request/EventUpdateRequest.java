@@ -14,7 +14,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EventUpdateRequest {
     String name; // Tên sự kiện
-    String capacity;
+    int capacity;
     String description; // Mô tả sự kiện
     String locationId; // ID của địa điểm
     Date dateStart; // Ngày bắt đầu

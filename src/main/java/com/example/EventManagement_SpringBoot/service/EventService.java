@@ -74,7 +74,7 @@ public class EventService {
         return eventMapper.toEventResponse(event);
     }
 
-    //Xem chi tiết sự kiện
+
     public EventResponse getEventInfoById(String eventID) {
         Event event = eventRepo.findByEventId(eventID)
                 .orElseThrow(() -> new AppException(ErrorCode.EVENT_NOT_FOUND));
@@ -224,5 +224,14 @@ public class EventService {
         event = eventRepo.save(event);
 
         return eventMapper.toEventParticipantResponse(event);
+    }
+
+    //Lấy ra sức chức sự kiện dựa vào eventId
+    public EventCapacityResponse getEventCapacity(String eventId) {
+        Event event = eventRepo.findByEventId(eventId)
+                .orElseThrow(() -> new AppException(ErrorCode.EVENT_NOT_FOUND));
+        return EventCapacityResponse.builder()
+                .capacity(event.getCapacity())
+                .build();
     }
 }
